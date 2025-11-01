@@ -1,4 +1,4 @@
-package com.abdullah.personalblog.personal_blog.models;
+package com.abdullah.personalblog.personal_blog.model;
 
 import java.time.LocalDate;
 
