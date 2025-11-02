@@ -8,8 +8,8 @@
     <h2>Articles List</h2>
 
     <span th:each="article: ${articles}">
-        <a th:href="@{/article/${article.getId()}}" th:text="${article.getTitle()}"></a>
-        <span th:text="${article.getDateOfPublication()}"></span>
+        <a th:href="@{/article/{articleId}(articleId = ${article.id})}" th:text="${article.title}"></a>
+        <span th:text="${article.dateOfPublication}"></span>
         <br><br>
     </span>
 </body>

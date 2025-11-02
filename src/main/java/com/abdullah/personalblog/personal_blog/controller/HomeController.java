@@ -6,10 +6,7 @@ import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import org.springframework.aop.scope.ScopedProxyUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.io.File;
 import java.io.IOException;
@@ -77,11 +74,12 @@ public class HomeController {
         }
 
         // Write the article object as JSON in a file with the name of the article's title
+        ObjectMapper mapper = new ObjectMapper();
+        String filename = "article-" + theArticle.getId() + ".json";
+        String newFilePath = "data/" + filename;
+        mapper.registerModule(new JavaTimeModule());
+
         try{
-            ObjectMapper mapper = new ObjectMapper();
-            String filename = "article-" + theArticle.getId() + ".json";
-            String newFilePath = "data/" + filename;
-            mapper.registerModule(new JavaTimeModule());
             mapper.writeValue(new File(newFilePath), theArticle);
         } catch (IOException ex){
             System.out.println(ex.getMessage());
@@ -89,5 +87,30 @@ public class HomeController {
 
         // Redirect to the home page
         return "redirect:/";
+    }
+
+    @GetMapping("/article/{articleId}")
+    public String showArticle(@PathVariable("articleId") String articleId, Model theModel){
+        // Reconstruct file path
+        String filePath = "data/article-" + articleId + ".json";
+
+        // Initialize new file object, and object mapper
+        File file = new File(filePath);
+        ObjectMapper mapper = new ObjectMapper();
+        mapper.registerModules(new JavaTimeModule());
+
+        try{
+            // Read json and store it in Article object
+            Article article = mapper.readValue(file, Article.class);
+
+            // Add article object to model
+            theModel.addAttribute("article", article);
+
+        } catch (IOException ex){
+            System.out.println(ex.getMessage());
+        }
+
+        // return article page
+        return "article-page";
     }
 }
