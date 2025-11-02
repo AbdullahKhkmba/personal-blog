@@ -79,8 +79,8 @@ public class HomeController {
         // Write the article object as JSON in a file with the name of the article's title
         try{
             ObjectMapper mapper = new ObjectMapper();
-            String filename = theArticle.getTitle().replace(" ", "-");
-            String newFilePath = "data/%s.json".formatted(filename);
+            String filename = "article-" + theArticle.getId() + ".json";
+            String newFilePath = "data/" + filename;
             mapper.registerModule(new JavaTimeModule());
             mapper.writeValue(new File(newFilePath), theArticle);
         } catch (IOException ex){
