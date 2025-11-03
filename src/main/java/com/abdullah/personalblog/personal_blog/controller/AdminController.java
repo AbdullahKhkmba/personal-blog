@@ -10,7 +10,6 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.UUID;
 
 @Controller
 @RequestMapping("/admin")
@@ -39,18 +38,16 @@ public class AdminController {
     public String processArticleForm(@Valid @ModelAttribute("article") Article theArticle,
                                      BindingResult theBindingResult) {
         if(theBindingResult.hasErrors()){
-            System.out.println(theArticle);
             return "article-form";
         }
         else{
-            System.out.println(theArticle);
             articleDAO.save(theArticle);
             return "redirect:/admin";
         }
     }
 
-    @GetMapping("/processEdit/{articleId}")
-    public String processEdit(@PathVariable("articleId") String articleId, Model theModel){
+    @GetMapping("/edit/{articleId}")
+    public String edit(@PathVariable("articleId") String articleId, Model theModel){
         Article article = articleDAO.findById(articleId);
         theModel.addAttribute("article", article);
         theModel.addAttribute("action", "Update");
