@@ -56,6 +56,22 @@ public class ArticleFileImpl implements ArticleDAO{
 
     @Override
     public void save(Article theArticle) {
+        // Set date in the article object
+        theArticle.setDateOfPublication(LocalDate.now());
 
+        // Create data directory if doesn't exist
+        File directory = new File("data");
+        if(!directory.exists())
+            directory.mkdir();
+
+        // Write the article object as JSON in a file with the name of the article's title
+        String filename = "article-" + theArticle.getId() + ".json";
+        String newFilePath = "data/" + filename;
+
+        try{
+            mapper.writeValue(new File(newFilePath), theArticle);
+        } catch (IOException ex){
+            System.out.println(ex.getMessage());
+        }
     }
 }

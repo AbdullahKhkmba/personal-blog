@@ -40,37 +40,7 @@ public class HomeController {
 
     @PostMapping("/processArticleForm")
     public String processArticleForm(@ModelAttribute("article") Article theArticle) {
-        // Set date in the article object
-        theArticle.setDateOfPublication(LocalDate.now());
-
-        // Create data directory if doesn't exist
-        File directory = new File("data");
-        if(!directory.exists()){
-            boolean created = directory.mkdir();
-            if(created){
-                System.out.println("Data directory was created successfully");
-            }
-            else{
-                System.out.println("Couldn't create data directory");
-            }
-
-        } else{
-            System.out.println("Data directory already exist");
-        }
-
-        // Write the article object as JSON in a file with the name of the article's title
-        ObjectMapper mapper = new ObjectMapper();
-        String filename = "article-" + theArticle.getId() + ".json";
-        String newFilePath = "data/" + filename;
-        mapper.registerModule(new JavaTimeModule());
-
-        try{
-            mapper.writeValue(new File(newFilePath), theArticle);
-        } catch (IOException ex){
-            System.out.println(ex.getMessage());
-        }
-
-        // Redirect to the home page
+        articleDAO.save(theArticle);
         return "redirect:/";
     }
 
