@@ -1,9 +1,11 @@
 package com.abdullah.personalblog.personal_blog.controller;
 
+import com.abdullah.personalblog.personal_blog.dao.ArticleDAO;
 import com.abdullah.personalblog.personal_blog.model.Article;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import org.springframework.aop.scope.ScopedProxyUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -16,38 +18,21 @@ import java.util.List;
 
 @Controller
 public class HomeController {
+    ArticleDAO articleDAO;
+
+    @Autowired
+    public HomeController(ArticleDAO theArticleDAO){
+        articleDAO = theArticleDAO;
+    }
+
     @GetMapping("/")
     public String showHome(Model theModel){
-        // Create articles list and mapper
-        List<Article> articles = new ArrayList<>();
-        ObjectMapper mapper = new ObjectMapper();
-        mapper.registerModule(new JavaTimeModule());
-
-        // List all files in data directory
-        File dataDirectory = new File("data");
-        if(dataDirectory.exists() && dataDirectory.isDirectory()){
-            File[] files = dataDirectory.listFiles();
-
-            // For each file read it and store it in the articles list
-            assert files != null;
-            for(File file: files){
-                try {
-                    Article article = mapper.readValue(file, Article.class);
-                    articles.add(article);
-                } catch (IOException e) {
-                    System.out.println(e.getMessage());
-                }
-            }
-
-            // Add the articles into the template
-            theModel.addAttribute("articles", articles);
-        } else{
-            System.out.println("No data directory");
-        }
+        List<Article> articles = articleDAO.findAll();
+        theModel.addAttribute("articles", articles);
         return "home-page";
     }
 
-    @RequestMapping("/new")
+    @GetMapping("/new")
     public String showNewArticleForm(Model theModel){
         theModel.addAttribute("article", new Article());
         return "article-form";
