@@ -86,4 +86,16 @@ public class ArticleDAOFileImpl implements ArticleDAO{
             System.out.println(ex.getMessage());
         }
     }
+
+    @Override
+    public void deleteById(String theId) {
+        String filepath = "data/article-" + theId +".json";
+        File file = new File(filepath);
+        if(file.delete()){
+            System.out.println("File is deleted successfully");
+        }
+        else{
+            System.out.println("Failed to delete file");
+        }
+    }
 }

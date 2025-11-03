@@ -8,4 +8,5 @@ public interface ArticleDAO {
     List<Article> findAll();
     Article findById(String theId);
     void save(Article theArticle);
+    void deleteById(String theId);
 }

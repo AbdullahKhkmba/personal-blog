@@ -67,4 +67,10 @@ public class HomeController {
         theModel.addAttribute("article", article);
         return "article-form";
     }
+
+    @GetMapping("/delete/{articleId}")
+    public String delete(@PathVariable("articleId") String articleId){
+        articleDAO.deleteById(articleId);
+        return "redirect:/admin";
+    }
 }
