@@ -13,7 +13,7 @@
     <span th:each="article: ${articles}">
         <a th:href="@{/article/{articleId}(articleId = ${article.id})}" th:text="${article.title}"></a>
         <span th:text="${article.dateOfPublication}"></span>
-        <a th:href="@{/processFormForEdit/{articleId}(articleId = ${article.id})}">Edit</a>
+        <a th:href="@{/processEdit/{articleId}(articleId = ${article.id})}">Edit</a>
         <a th:href="@{/delete/{articleId}(articleId = ${article.id})}">Delete</a>
         <br><br>
     </span>

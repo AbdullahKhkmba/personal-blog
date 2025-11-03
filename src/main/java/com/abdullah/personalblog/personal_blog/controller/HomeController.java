@@ -2,30 +2,21 @@ package com.abdullah.personalblog.personal_blog.controller;
 
 import com.abdullah.personalblog.personal_blog.dao.ArticleDAO;
 import com.abdullah.personalblog.personal_blog.model.Article;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
-import org.springframework.aop.scope.ScopedProxyUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.thymeleaf.spring6.templateresolver.SpringResourceTemplateResolver;
 
-import java.io.File;
-import java.io.IOException;
-import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
 
 @Controller
 public class HomeController {
-    private final SpringResourceTemplateResolver springResourceTemplateResolver;
     ArticleDAO articleDAO;
 
     @Autowired
-    public HomeController(ArticleDAO theArticleDAO, SpringResourceTemplateResolver springResourceTemplateResolver){
+    public HomeController(ArticleDAO theArticleDAO){
         articleDAO = theArticleDAO;
-        this.springResourceTemplateResolver = springResourceTemplateResolver;
     }
 
     @GetMapping("/")
@@ -38,6 +29,7 @@ public class HomeController {
     @GetMapping("/new")
     public String showNewArticleForm(Model theModel){
         theModel.addAttribute("article", new Article());
+        theModel.addAttribute("action", "New");
         return "article-form";
     }
 
@@ -61,10 +53,11 @@ public class HomeController {
         return "admin-page";
     }
 
-    @GetMapping("/processFormForEdit/{articleId}")
-    public String processFormForEdit(@PathVariable("articleId") String articleId, Model theModel){
+    @GetMapping("/processEdit/{articleId}")
+    public String processEdit(@PathVariable("articleId") String articleId, Model theModel){
         Article article = articleDAO.findById(articleId);
         theModel.addAttribute("article", article);
+        theModel.addAttribute("action", "Update");
         return "article-form";
     }
 
