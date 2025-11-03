@@ -41,7 +41,7 @@ public class HomeController {
     @PostMapping("/processArticleForm")
     public String processArticleForm(@ModelAttribute("article") Article theArticle) {
         articleDAO.save(theArticle);
-        return "redirect:/";
+        return "redirect:/admin";
     }
 
     @GetMapping("/article/{articleId}")
@@ -49,5 +49,12 @@ public class HomeController {
         Article article = articleDAO.findById(articleId);
         theModel.addAttribute("article", article);
         return "article-page";
+    }
+
+    @GetMapping("/admin")
+    public String showAdminPage(Model theModel){
+        List<Article> articles = articleDAO.findAll();
+        theModel.addAttribute("articles", articles);
+        return "admin-page";
     }
 }

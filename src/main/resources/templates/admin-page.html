@@ -1,15 +1,20 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Home Page</title>
+    <title>Admin Page</title>
 </head>
 <body>
     <h2>Articles List</h2>
+    <a th:href="@{/new}">+ Add</a>
+
+    <br><br>
 
     <span th:each="article: ${articles}">
         <a th:href="@{/article/{articleId}(articleId = ${article.id})}" th:text="${article.title}"></a>
         <span th:text="${article.dateOfPublication}"></span>
+        <a th:href="@{/edit/{articleId}(articleId = ${article.id})}">Edit</a>
+        <a th:href="@{/delete/{articleId}(articleId = ${article.id})}">Delete</a>
         <br><br>
     </span>
 </body>
