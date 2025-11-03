@@ -1,23 +1,23 @@
 package com.abdullah.personalblog.personal_blog.model;
 
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
+
 import java.time.LocalDate;
 import java.util.UUID;
 
 public class Article {
     private String id;
+
+    @NotBlank(message="is required")
     private String title;
     private String content;
     private LocalDate dateOfPublication;
 
     public Article() {
         this.id = UUID.randomUUID().toString();
-    }
-
-    public Article(String title, String content, LocalDate dateOfPublication) {
-        this.id = UUID.randomUUID().toString();
-        this.title = title;
-        this.content = content;
-        this.dateOfPublication = dateOfPublication;
     }
 
     public String getId() {

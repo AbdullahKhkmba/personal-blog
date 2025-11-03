@@ -3,15 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <title>Article Form</title>
+    <style>
+        .error{
+            color: red;
+        }
+    </style>
 </head>
 <body>
-    <h3 th:if="${action == 'Update'}">Update Article</h3>
-    <h3 th:if="${action == 'New'}">New Article</h3>
+    <h3 th:text="${article.dateOfPublication} != null ? 'Update Article' : 'New Article' "/>
 
     <form th:action="@{/admin/processArticleForm}" th:object="${article}" th:method="POST">
         <input type="hidden" th:field="*{id}"/>
+        <input type="hidden" th:field="*{dateOfPublication}"/>
 
-        Title: <input type="text" th:field="*{title}"/>
+        Title (*): <input type="text" th:field="*{title}"/>
+
+        <span th:if="${#fields.hasErrors('title')}"
+              th:errors="*{title}"
+              class="error"></span>
 
         <br></br>
 
@@ -19,8 +28,7 @@
 
         <br></br>
 
-        <input type="submit" th:if="${action == 'Update'}" value="Update"/>
-        <input type="submit" th:if="${action == 'New'}" value="Publish"/>
+        <input type="submit" th:value="${article.dateOfPublication} != null ? 'Update Article' : 'New Article' "/>
 
     </form>
 
