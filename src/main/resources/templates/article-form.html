@@ -2,11 +2,13 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>New Article</title>
+    <title>Article Form</title>
 </head>
 <body>
-    <h3>New Article</h3>
+    <h3>Article Form</h3>
     <form th:action="@{/processArticleForm}" th:object="${article}" th:method="POST">
+        <input type="hidden" th:field="*{id}"/>
+
         Title: <input type="text" th:field="*{title}"/>
 
         <br></br>

@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.thymeleaf.spring6.templateresolver.SpringResourceTemplateResolver;
 
 import java.io.File;
 import java.io.IOException;
@@ -18,11 +19,13 @@ import java.util.List;
 
 @Controller
 public class HomeController {
+    private final SpringResourceTemplateResolver springResourceTemplateResolver;
     ArticleDAO articleDAO;
 
     @Autowired
-    public HomeController(ArticleDAO theArticleDAO){
+    public HomeController(ArticleDAO theArticleDAO, SpringResourceTemplateResolver springResourceTemplateResolver){
         articleDAO = theArticleDAO;
+        this.springResourceTemplateResolver = springResourceTemplateResolver;
     }
 
     @GetMapping("/")
@@ -56,5 +59,12 @@ public class HomeController {
         List<Article> articles = articleDAO.findAll();
         theModel.addAttribute("articles", articles);
         return "admin-page";
+    }
+
+    @GetMapping("/processFormForEdit/{articleId}")
+    public String processFormForEdit(@PathVariable("articleId") String articleId, Model theModel){
+        Article article = articleDAO.findById(articleId);
+        theModel.addAttribute("article", article);
+        return "article-form";
     }
 }
