@@ -46,26 +46,8 @@ public class HomeController {
 
     @GetMapping("/article/{articleId}")
     public String showArticle(@PathVariable("articleId") String articleId, Model theModel){
-        // Reconstruct file path
-        String filePath = "data/article-" + articleId + ".json";
-
-        // Initialize new file object, and object mapper
-        File file = new File(filePath);
-        ObjectMapper mapper = new ObjectMapper();
-        mapper.registerModules(new JavaTimeModule());
-
-        try{
-            // Read json and store it in Article object
-            Article article = mapper.readValue(file, Article.class);
-
-            // Add article object to model
-            theModel.addAttribute("article", article);
-
-        } catch (IOException ex){
-            System.out.println(ex.getMessage());
-        }
-
-        // return article page
+        Article article = articleDAO.findById(articleId);
+        theModel.addAttribute("article", article);
         return "article-page";
     }
 }

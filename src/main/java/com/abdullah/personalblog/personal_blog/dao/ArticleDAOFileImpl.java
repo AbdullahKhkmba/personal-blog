@@ -13,11 +13,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Repository
-public class ArticleFileImpl implements ArticleDAO{
+public class ArticleDAOFileImpl implements ArticleDAO{
     ObjectMapper mapper;
 
     @Autowired
-    public ArticleFileImpl(ObjectMapper theMapper){
+    public ArticleDAOFileImpl(ObjectMapper theMapper){
         mapper = theMapper;
         mapper.registerModule(new JavaTimeModule());
     }
@@ -50,8 +50,20 @@ public class ArticleFileImpl implements ArticleDAO{
     }
 
     @Override
-    public Article findById(String theId) {
-        return null;
+    public Article findById(String articleId) {
+        // Reconstruct file path
+        String filePath = "data/article-" + articleId + ".json";
+        Article article = null;
+
+        // Initialize new file object, and object mapper
+        File file = new File(filePath);
+        try{
+            // Read json and store it in Article object
+            article = mapper.readValue(file, Article.class);
+        } catch (IOException ex){
+            System.out.println(ex.getMessage());
+        }
+        return article;
     }
 
     @Override
