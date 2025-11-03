@@ -6,24 +6,24 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.thymeleaf.spring6.templateresolver.SpringResourceTemplateResolver;
 
 import java.util.List;
 
 @Controller
-public class HomeController {
+@RequestMapping("/admin")
+public class AdminController {
     ArticleDAO articleDAO;
 
     @Autowired
-    public HomeController(ArticleDAO theArticleDAO){
+    public AdminController(ArticleDAO theArticleDAO){
         articleDAO = theArticleDAO;
     }
 
-    @GetMapping("/")
-    public String showHome(Model theModel){
+    @GetMapping("")
+    public String showAdminPage(Model theModel){
         List<Article> articles = articleDAO.findAll();
         theModel.addAttribute("articles", articles);
-        return "home-page";
+        return "admin-page";
     }
 
     @GetMapping("/new")
@@ -37,20 +37,6 @@ public class HomeController {
     public String processArticleForm(@ModelAttribute("article") Article theArticle) {
         articleDAO.save(theArticle);
         return "redirect:/admin";
-    }
-
-    @GetMapping("/article/{articleId}")
-    public String showArticle(@PathVariable("articleId") String articleId, Model theModel){
-        Article article = articleDAO.findById(articleId);
-        theModel.addAttribute("article", article);
-        return "article-page";
-    }
-
-    @GetMapping("/admin")
-    public String showAdminPage(Model theModel){
-        List<Article> articles = articleDAO.findAll();
-        theModel.addAttribute("articles", articles);
-        return "admin-page";
     }
 
     @GetMapping("/processEdit/{articleId}")

@@ -8,7 +8,7 @@
     <h3 th:if="${action == 'Update'}">Update Article</h3>
     <h3 th:if="${action == 'New'}">New Article</h3>
 
-    <form th:action="@{/processArticleForm}" th:object="${article}" th:method="POST">
+    <form th:action="@{/admin/processArticleForm}" th:object="${article}" th:method="POST">
         <input type="hidden" th:field="*{id}"/>
 
         Title: <input type="text" th:field="*{title}"/>

@@ -26,10 +26,7 @@ public class SecurityConfig {
     SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.authorizeHttpRequests(configurer ->
                 configurer
-                        .requestMatchers(HttpMethod.GET, "/admin").hasRole("ADMIN")
-                        .requestMatchers(HttpMethod.GET, "/new").hasRole("ADMIN")
-                        .requestMatchers(HttpMethod.GET, "/delete/**").hasRole("ADMIN")
-                        .requestMatchers(HttpMethod.GET, "/processEdit/**").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.GET, "/admin/**").hasRole("ADMIN")
                         .anyRequest().permitAll()
         );
         http.httpBasic(Customizer.withDefaults());
