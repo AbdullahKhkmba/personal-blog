@@ -13,4 +13,4 @@ In the digital world, managing and sharing content has become easier and more ef
 - **Read Blogs:** Both admins and normal site users can view and read all published blog posts. This feature is essential for managing and reviewing content, ensuring consistency and quality across the blog.
 
 ## Project URL
-For more details this project is inspired from roadmap.sh: Personal Blog Application on roadmap.sh.
+This project is inspired from roadmap.sh website: Personal Blog Application on [Personal Blog](https://roadmap.sh/projects/personal-blog?fl=0)
